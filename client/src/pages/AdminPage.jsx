@@ -1,14 +1,16 @@
 import React, {useEffect} from 'react'
 import {useSelector} from 'react-redux'
-import AdminDashboard from '../components/dashboard/AdminDashboard'
 import {Divider} from 'semantic-ui-react'
+import CreateNewRoom from '../components/dashboard/CreateNewRoom'
+import CreateNewCandidate from '../components/dashboard/CreateNewCandidate'
+import CandidatesList from '../components/dashboard/CandidatesList'
 
-const AdminPage = ({history}) => {
+const AdminPage = ({history, location}) => {
   const {user} = useSelector(({authReducers}) => authReducers)
 
   useEffect(() => {
     user?.role.includes('user') && history.push('/')
-  },[user?.role, history])
+  }, [user?.role, history])
 
 
   return (
@@ -16,7 +18,24 @@ const AdminPage = ({history}) => {
       <div className="container mt-5">
         <h1>Admin Page !</h1>
         <Divider/>
-        <AdminDashboard/>
+        {
+          location.pathname === '/dashboard/rooms' &&
+          <>
+            <div className="row">
+              <CreateNewRoom/>
+            </div>
+          </>
+        }
+
+        {
+          location.pathname === '/dashboard/candidates' &&
+          <>
+            <div className="row">
+              <CreateNewCandidate/>
+              <CandidatesList/>
+            </div>
+          </>
+        }
       </div>
     </div>
   )

@@ -19,7 +19,11 @@ export const privateRoutes = [
     component: VoteRoomDetails,
   },
   {
-    path: '/dashboard',
+    path: '/dashboard/rooms',
+    component: AdminPage,
+  },
+  {
+    path: '/dashboard/candidates',
     component: AdminPage,
   },
 

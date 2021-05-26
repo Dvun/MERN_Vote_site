@@ -8,7 +8,10 @@ const NewRoomForm = () => {
   const {user} = useSelector(({authReducers}) => authReducers)
 
   const handleSubmit = (values, resetForm) => {
-    console.log(values)
+    const newRoom = {
+      ...values,
+      createdBy: user._id
+    }
   }
 
   return (
@@ -35,7 +38,7 @@ const NewRoomForm = () => {
           className="form-control mb-4 p-2"
         />
 
-        <Button color='blue' content='Create Room'/>
+        <Button color='blue' type='submit' content='Create Room'/>
       </Form>
 
     </Formik>
