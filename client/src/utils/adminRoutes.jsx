@@ -1,9 +1,10 @@
 import VoteRoomDetails from '../components/voteRooms/VoteRoomDetails'
 import HomePage from '../pages/HomePage'
 import VoteRooms from '../pages/VoteRooms'
+import AdminPage from '../pages/AdminPage'
 
 
-export const privateRoutes = [
+export const adminRoutes = [
 
   {
     path: '/',
@@ -16,6 +17,14 @@ export const privateRoutes = [
   {
     path: '/rooms/:id',
     component: VoteRoomDetails,
+  },
+  {
+    path: '/dashboard/rooms',
+    component: AdminPage,
+  },
+  {
+    path: '/dashboard/candidates',
+    component: AdminPage,
   },
 
 ]

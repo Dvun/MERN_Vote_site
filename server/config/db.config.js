@@ -11,6 +11,7 @@ async function startDB() {
     console.log('Database connected!')
   } catch (e) {
     console.log(e)
+    process.exit(1)
   }
 }
 

@@ -3,6 +3,7 @@ import {Route, Switch, Redirect} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {publicRoutes} from './utils/publicRoutes'
 import {privateRoutes} from './utils/privateRoutes'
+import {adminRoutes} from './utils/adminRoutes'
 
 const Routes = () => {
   const {user} = useSelector(({authReducers}) => authReducers)
@@ -10,20 +11,28 @@ const Routes = () => {
   return (
     <>
       {
-        user ?
+        user?.roles.includes('admin') ?
           <Switch>
-            {privateRoutes.map(({path, component}) => (
+            {adminRoutes.map(({path, component}) => (
               <Route key={path} path={path} component={component} exact/>
             ))}
             <Redirect to="/"/>
           </Switch>
           :
-          <Switch>
-            {publicRoutes.map(({path, component}) => (
-              <Route key={path} path={path} component={component} exact/>
-            ))}
-            <Redirect to="/login"/>
-          </Switch>
+          user ?
+            <Switch>
+              {privateRoutes.map(({path, component}) => (
+                <Route key={path} path={path} component={component} exact/>
+              ))}
+              <Redirect to="/"/>
+            </Switch>
+            :
+            <Switch>
+              {publicRoutes.map(({path, component}) => (
+                <Route key={path} path={path} component={component} exact/>
+              ))}
+              <Redirect to="/login"/>
+            </Switch>
       }
     </>
   )

@@ -25,18 +25,15 @@ const Header = () => {
                 <NavLink className="nav-link" to="/rooms">Rooms</NavLink>
               </li>
               {
-                user?.role.includes('admin') || user?.role.includes('candidate') ?
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to="/dashboard/rooms">Rooms Dashboard</NavLink>
-                  </li>
-                  :
-                  null
-              }
-              {
-                user?.role.includes('admin') || user?.role.includes('candidate') ?
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to="/dashboard/candidates">Candidates</NavLink>
-                  </li>
+                user?.roles.includes('admin') || user?.roles.includes('candidate') ?
+                  <>
+                    <li className="nav-item">
+                      <NavLink className="nav-link" to="/dashboard/rooms">Rooms Dashboard</NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink className="nav-link" to="/dashboard/candidates">Candidates</NavLink>
+                    </li>
+                  </>
                   :
                   null
               }

@@ -31,7 +31,7 @@ module.exports = {
           _id: user._id,
           voted: user.voted,
           picture: user.picture,
-          role: user.role,
+          roles: user.roles,
           name: user.name,
           email: user.email,
           createdAt: user.createdAt,

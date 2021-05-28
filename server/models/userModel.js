@@ -6,7 +6,7 @@ const userModel = new mongoose.Schema({
   email: {type: String, trim: true, required: true, unique: true},
   password: {type: String, trim: true, required: true, min: 5, max: 15},
   picture: {type: String, default: '/avatar.png'},
-  role: {type: [String], default: ['user'], enum: ['user', 'candidate', 'admin']},
+  roles: {type: [String], default: ['user'], enum: ['user', 'candidate', 'admin']},
   voted: [
     {
       isVoted: {type: Boolean, default: false},

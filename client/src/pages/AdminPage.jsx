@@ -1,16 +1,11 @@
-import React, {useEffect} from 'react'
-import {useSelector} from 'react-redux'
+import React from 'react'
 import {Divider} from 'semantic-ui-react'
-import CreateNewRoom from '../components/dashboard/CreateNewRoom'
-import CreateNewCandidate from '../components/dashboard/CreateNewCandidate'
-import CandidatesList from '../components/dashboard/CandidatesList'
+import CreateNewRoom from '../components/dashboard/room/CreateNewRoom'
+import CreateNewCandidate from '../components/dashboard/candidate/CreateNewCandidate'
+import CandidatesList from '../components/dashboard/candidate/CandidatesList'
+import RoomsList from '../components/dashboard/room/RoomsList'
 
-const AdminPage = ({history, location}) => {
-  const {user} = useSelector(({authReducers}) => authReducers)
-
-  useEffect(() => {
-    user?.role.includes('user') && history.push('/')
-  }, [user?.role, history])
+const AdminPage = ({location}) => {
 
 
   return (
@@ -23,6 +18,7 @@ const AdminPage = ({history, location}) => {
           <>
             <div className="row">
               <CreateNewRoom/>
+              <RoomsList/>
             </div>
           </>
         }
