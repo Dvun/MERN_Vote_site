@@ -17,8 +17,7 @@ const roomSlice = createSlice({
       state.isLoading = false
     },
 
-    CREATE_NEW_ROOM: (state, action) => {
-      state.rooms = action.payload
+    CREATE_NEW_ROOM: (state) => {
       state.isLoading = false
     },
 

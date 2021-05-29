@@ -1,23 +1,17 @@
-import React, {useState} from 'react'
-import {useSelector} from 'react-redux'
+import React from 'react'
 import {Button, Form} from 'semantic-ui-react'
+import Select from 'react-select'
 
-const NewRoomForm = () => {
-  const {user} = useSelector(({authReducers}) => authReducers)
-  const [values, setValues] = useState({
-    roomName: '',
-    description: '',
-    startDate: '',
-  })
+const NewRoomForm = ({
+                       handleSubmit,
+                       values,
+                       handleChange,
+                       candidates,
+                       setSelectorState,
+                       selectorState,
+                       handleReset,
+                     }) => {
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(values)
-  }
-
-  const handleChange = (e) => {
-    setValues({...values, [e.target.name]: e.target.value})
-  }
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -45,10 +39,32 @@ const NewRoomForm = () => {
         className="form-control mb-4 p-2"
       />
 
+      <Select
+        isMulti
+        options={candidates.map(candidate => (
+          {value: candidate.email, label: candidate.name}
+        ))}
+        value={selectorState}
+        onChange={values => setSelectorState(values)}
+        className="basic-multi-select"
+        classNamePrefix="select"
+      />
+
       <Button
+        className="mt-2"
         color="blue"
         type="submit"
         content="Create Room"
+        disabled={values.roomName === '' || values.description === '' || values.startDate === '' || selectorState === null}
+      />
+      <Button
+        floated="right"
+        className="mt-2"
+        color="red"
+        type="button"
+        content="Reset"
+        onClick={handleReset}
+        disabled={values.roomName === '' || values.description === '' || values.startDate === '' || selectorState === null}
       />
     </Form>
   )
