@@ -1,16 +1,40 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import NewRoomForm from './NewRoomForm'
 import {useDispatch, useSelector} from 'react-redux'
-import {createNewRoom} from '../../../store/actions/roomActions'
+import {createNewRoom, updateRoom} from '../../../store/actions/roomActions'
+import {format} from 'date-fns'
+import {GET_CURRENT_ROOM} from '../../../store/reducers/roomReducers'
 
 const CreateNewRoom = () => {
   const dispatch = useDispatch()
   const {user} = useSelector(({authReducers}) => authReducers)
   const {candidates} = useSelector(({candidateReducers}) => candidateReducers)
-  const [selectorState, setSelectorState] = useState(null)
+  const {currentRoom} = useSelector(({roomReducers}) => roomReducers)
+  const [selectorState, setSelectorState] = useState([])
   const [values, setValues] = useState({roomName: '', description: '', startDate: ''})
 
-  const handleSubmit = (e) => {
+  // If Current Candidate
+  useEffect(() => {
+    currentRoom && setValues({
+      roomName: currentRoom.roomName,
+      description: currentRoom.description,
+      startDate: format(new Date(currentRoom.startDate), 'yyyy-MM-dd'),
+    })
+    if (currentRoom) {
+      let candidateArr = []
+      candidates.forEach(candidate => {
+        currentRoom.candidates.forEach(roomCnd => {
+          if (candidate._id === roomCnd) {
+            candidateArr.push({value: candidate.email, label: candidate.name})
+            setSelectorState(candidateArr)
+          }
+        })
+      })
+    }
+  }, [currentRoom])
+
+  // Create and Update Candidate
+  const handleSubmit = async (e) => {
     e.preventDefault()
     let candidateArr = []
     selectorState.forEach(candidateEmail => {
@@ -24,7 +48,18 @@ const CreateNewRoom = () => {
       ...values,
       candidates: candidateArr,
       createdBy: user._id,
-      startDate: new Date(values.startDate)
+      startDate: new Date(values.startDate),
+    }
+    if (currentRoom) {
+      await dispatch(updateRoom(handleReset, {
+        ...currentRoom,
+        roomName: values.roomName,
+        description: values.description,
+        candidates: candidateArr,
+        createdBy: user._id,
+        startDate: Date.parse(values.startDate),
+      }))
+      return
     }
     dispatch(createNewRoom(newRoom, handleReset))
   }
@@ -35,7 +70,8 @@ const CreateNewRoom = () => {
 
   const handleReset = () => {
     setValues({roomName: '', description: '', startDate: ''})
-    setSelectorState(null)
+    setSelectorState([])
+    dispatch(GET_CURRENT_ROOM(null))
   }
 
   return (
@@ -46,6 +82,7 @@ const CreateNewRoom = () => {
           candidates={candidates}
           selectorState={selectorState}
           setSelectorState={setSelectorState}
+          currentRoom={currentRoom}
           handleReset={handleReset}
           values={values}
           handleSubmit={handleSubmit}

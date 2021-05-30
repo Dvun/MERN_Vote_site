@@ -15,6 +15,13 @@ module.exports = {
   },
 
   getCurrentRoom: async (req, res) => {
+    try {
+      const room = await Room.findOne({_id: req.params.id})
+      if (!room) return responseSend(res, 404, 'Room not found!')
+      res.status(200).json(room)
+    } catch (e) {
+      responseSend(res, 500, 'Server Error!')
+    }
   },
 
   createNewRoom: async (req, res) => {
@@ -31,9 +38,21 @@ module.exports = {
   },
 
   updateRoom: async (req, res) => {
+    try {
+      await Room.findByIdAndUpdate({_id: req.params.id}, {...req.body})
+      responseSend(res, 200, 'Vote Room Updated!')
+    } catch (e) {
+      return responseSend(res, 404, 'Room name need be unique!')
+    }
   },
 
   deleteRoom: async (req, res) => {
+    try {
+      const room = await Room.findByIdAndDelete(req.params.id)
+      responseSend(res, 200, `Room ${room.roomName} is successfully deleted!`)
+    } catch (e) {
+      responseSend(res, 500, 'Server Error!')
+    }
   },
 
 }

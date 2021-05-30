@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const candidateModel = require('./candidateModel')
 
 const roomModel = new mongoose.Schema({
   roomName: {type: String, trim: true, required: true},

@@ -3,21 +3,17 @@ import {format} from 'date-fns'
 import {List} from 'semantic-ui-react'
 
 const RoomTime = ({startDate}) => {
-  const dayNow = Date.now()
-  const voteDay = Date.parse(startDate)
+
+  const resultDay = Date.now() >= Date.parse(startDate)
 
   return (
     <List.Description as="div">
-      Vote start:
-      {' '}
-      <b>
-        {
-          voteDay <= dayNow ?
-            <span style={{color: 'red'}}>Vote finish!</span>
-            :
-            format(new Date(startDate), 'dd.MM.yyyy')
-        }
-      </b>
+      {
+        resultDay ?
+          <span style={{color: 'red'}}>VOTE FINISH!</span>
+          :
+          <span>Vote last day: {format(new Date(startDate), 'dd.MM.yyyy')}</span>
+      }
     </List.Description>
   )
 }

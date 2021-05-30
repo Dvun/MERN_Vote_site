@@ -1,22 +1,31 @@
 import React from 'react'
 import styles from './voteRoomItem.module.scss'
 import {Link} from 'react-router-dom'
+import RoomTime from '../dashboard/room/RoomTime'
 
-const VoteRoomItem = () => {
+const VoteRoomItem = ({room}) => {
+
+  const resultDay = Date.now() >= Date.parse(room.startDate)
+
   return (
     <div className="col col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12">
       <div className={styles.room}>
         <div className={`card-body ${styles['card-body']}`}>
           <div className="content">
-            <h5 className="card-title">President Vote!</h5>
-            <h6 className="card-subtitle mb-2 text-muted">vote start: 05.06.2021</h6>
-            <p className="card-text">
-              New President vote!
-            </p>
+            <h3 className="card-title">{room.roomName}</h3>
+            <p className="card-text mt-2">{room.description}</p>
           </div>
           <div className={styles['room-date']}>
-            <p className=''>Vote start: 25.05.2021</p>
-            <Link to="/rooms/:id" >Start Vote</Link>
+            <p>Candidates: {room.candidates.length}</p>
+            <div className={styles['room-date__button']}>
+              <h6 className="card-subtitle text-muted">
+                <RoomTime startDate={room.startDate}/>
+              </h6>
+              {
+                !resultDay &&
+                <Link to="/rooms/:id" style={{width: '95px'}}>Start Vote</Link>
+              }
+            </div>
           </div>
         </div>
       </div>

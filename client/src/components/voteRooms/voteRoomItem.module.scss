@@ -4,6 +4,7 @@
   border: 1px solid black;
   margin: 0 0 1rem 0;
   overflow: hidden;
+  border-radius: 10px;
 
   @media (max-width: 991px) {
     width: 100%;
@@ -21,9 +22,12 @@
     justify-content: space-between;
 
     & .room-date {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+
+      & p {
+        margin: 0;
+        display: flex;
+        font-weight: bold;
+      }
 
       & a {
         padding: 7px 10px;
@@ -31,9 +35,11 @@
         border: 1px solid black;
       }
 
-      & p {
-        margin: 0;
+      .room-date__button {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
       }
     }
   }

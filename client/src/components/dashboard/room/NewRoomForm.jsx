@@ -1,17 +1,14 @@
 import React from 'react'
 import {Button, Form} from 'semantic-ui-react'
 import Select from 'react-select'
+import {useSelector} from 'react-redux'
+import {format} from 'date-fns'
 
 const NewRoomForm = ({
-                       handleSubmit,
-                       values,
-                       handleChange,
-                       candidates,
-                       setSelectorState,
-                       selectorState,
-                       handleReset,
+                       handleSubmit, values, handleChange, candidates, setSelectorState, selectorState,
+                       handleReset, currentRoom
                      }) => {
-
+  const {isLoading} = useSelector(({roomReducers}) => roomReducers)
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -25,7 +22,7 @@ const NewRoomForm = ({
       />
       <input
         name="description"
-        placeholder="Vote room Name"
+        placeholder="Vote room description"
         type="text"
         value={values.description}
         onChange={(e) => handleChange(e)}
@@ -35,6 +32,7 @@ const NewRoomForm = ({
         name="startDate"
         type="date"
         value={values.startDate}
+        min={format(new Date(Date.now()), 'yyyy-MM-dd')}
         onChange={(e) => handleChange(e)}
         className="form-control mb-4 p-2"
       />
@@ -51,10 +49,11 @@ const NewRoomForm = ({
       />
 
       <Button
+        loading={isLoading}
         className="mt-2"
         color="blue"
         type="submit"
-        content="Create Room"
+        content={currentRoom ? 'Update Room' : 'Create Room'}
         disabled={values.roomName === '' || values.description === '' || values.startDate === '' || selectorState === null}
       />
       <Button

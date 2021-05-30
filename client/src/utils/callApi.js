@@ -8,6 +8,7 @@ export const callApi = (url, method, data) => {
     method,
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
     },
     data
   })

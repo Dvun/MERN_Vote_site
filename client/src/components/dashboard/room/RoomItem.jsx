@@ -1,14 +1,11 @@
 import React from 'react'
 import {Button, List} from 'semantic-ui-react'
-import {format} from 'date-fns'
 import RoomTime from './RoomTime'
+import {deleteRoom, getCurrentRoom} from '../../../store/actions/roomActions'
+import {useDispatch} from 'react-redux'
 
 const RoomItem = ({room}) => {
-
-  if (Date.parse(room.startDate) >= Date.now()) {
-    console.log('vote coming')
-  }
-
+  const dispatch = useDispatch()
 
   return (
     <List.Item>
@@ -18,7 +15,10 @@ const RoomItem = ({room}) => {
             <List.Content>
               <List.Header as="h3">{room.roomName}</List.Header>
               <List.Description as="p">{room.description}</List.Description>
-              <RoomTime startDate={room.startDate}/>
+              {
+                room?.startDate &&
+                <RoomTime startDate={room.startDate}/>
+              }
             </List.Content>
           </List.Item>
         </div>
@@ -28,15 +28,14 @@ const RoomItem = ({room}) => {
             <Button
               color="yellow"
               style={{width: '100%'}}
-              // onClick={() => dispatch(getCurrentCandidate(candidate._id))}
+              onClick={() => dispatch(getCurrentRoom(room._id))}
             >
               Update
             </Button>
             <Button
-              // loading={createCandidateLoading}
               color="red"
               style={{width: '100%', marginTop: '5px'}}
-              // onClick={() => dispatch(deleteCandidate(candidate._id))}
+              onClick={() => dispatch(deleteRoom(room._id))}
             >
               Delete
             </Button>
