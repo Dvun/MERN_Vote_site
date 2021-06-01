@@ -1,6 +1,7 @@
 const Room = require('../models/roomModel')
 const User = require('../models/userModel')
 const Candidate = require('../models/candidateModel')
+const Statistic = require('../models/statisticModel')
 const {responseSend} = require('../utils/responseSend')
 
 
@@ -51,8 +52,11 @@ module.exports = {
   deleteRoom: async (req, res) => {
     try {
       const room = await Room.findByIdAndDelete(req.params.id)
+      await User.updateMany({votedRooms: room._id}, {$pull: {votedRooms: room._id}})
+      await Candidate.updateMany({votedInRoom: room._id}, {$pull: {votedInRoom: room._id}})
       responseSend(res, 200, `Room ${room.roomName} is successfully deleted!`)
     } catch (e) {
+      console.log(e)
       responseSend(res, 500, 'Server Error!')
     }
   },
@@ -72,6 +76,15 @@ module.exports = {
           voteFromUser: userId,
         },
       })
+      const statistic = await Statistic.findOneAndUpdate({_id: userId}, {$push: {candidateId: candidateId, roomId: roomId}})
+      if (!statistic) {
+         const newStatistics = {
+             _id: userId,
+             roomId: roomId,
+             candidateId: candidateId
+           }
+        await Statistic.create(newStatistics)
+      }
       responseSend(res, 200, 'Voted!')
     } catch (e) {
       responseSend(res, 500, 'Server Error!')

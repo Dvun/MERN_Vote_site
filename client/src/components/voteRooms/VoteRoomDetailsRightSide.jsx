@@ -75,7 +75,7 @@ const VoteRoomDetailsRightSide = ({candidates, roomId, currentUser, isLoading}) 
         <div>
           <Button
             loading={isLoading}
-            disabled={!checked || votedRoom}
+            disabled={isLoading || !checked || votedRoom}
             color="blue"
             type="submit"
             content="Send Vote"

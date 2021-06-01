@@ -1,4 +1,5 @@
 const Candidate = require('../models/candidateModel')
+const User = require('../models/userModel')
 const {responseSend} = require('../utils/responseSend')
 
 
@@ -50,6 +51,7 @@ module.exports = {
   deleteCandidate: async (req, res) => {
     try {
       const candidate = await Candidate.findByIdAndDelete(req.params.id)
+      await User.updateMany({votedCandidates: candidate._id}, {$pull: {votedCandidates: candidate._id}})
       if (!candidate) return responseSend(res, 404, `Candidate not found!`)
       responseSend(res, 200, `Candidate successfully deleted!`)
     } catch (e) {
