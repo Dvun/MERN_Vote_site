@@ -15,6 +15,7 @@ const CreateNewRoom = () => {
 
   // If Current Candidate
   useEffect(() => {
+    if (!currentRoom) handleReset()
     currentRoom && setValues({
       roomName: currentRoom.roomName,
       description: currentRoom.description,
@@ -24,14 +25,14 @@ const CreateNewRoom = () => {
       let candidateArr = []
       candidates.forEach(candidate => {
         currentRoom.candidates.forEach(roomCnd => {
-          if (candidate._id === roomCnd) {
+          if (candidate._id === roomCnd._id) {
             candidateArr.push({value: candidate.email, label: candidate.name})
             setSelectorState(candidateArr)
           }
         })
       })
     }
-  }, [currentRoom])
+  }, [currentRoom, candidates])
 
   // Create and Update Candidate
   const handleSubmit = async (e) => {

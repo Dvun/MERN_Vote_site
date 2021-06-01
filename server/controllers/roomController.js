@@ -1,4 +1,6 @@
 const Room = require('../models/roomModel')
+const User = require('../models/userModel')
+const Candidate = require('../models/candidateModel')
 const {responseSend} = require('../utils/responseSend')
 
 
@@ -16,7 +18,7 @@ module.exports = {
 
   getCurrentRoom: async (req, res) => {
     try {
-      const room = await Room.findOne({_id: req.params.id})
+      const room = await Room.findOne({_id: req.params.id}).populate('candidates')
       if (!room) return responseSend(res, 404, 'Room not found!')
       res.status(200).json(room)
     } catch (e) {
@@ -50,6 +52,27 @@ module.exports = {
     try {
       const room = await Room.findByIdAndDelete(req.params.id)
       responseSend(res, 200, `Room ${room.roomName} is successfully deleted!`)
+    } catch (e) {
+      responseSend(res, 500, 'Server Error!')
+    }
+  },
+
+  votingRoomAndCandidate: async (req, res) => {
+    const {userId, roomId, candidateId} = req.body.votingRoomAndCandidate
+    try {
+      await User.findByIdAndUpdate({_id: userId}, {
+        $push: {
+          votedCandidates: candidateId,
+          votedRooms: roomId,
+        },
+      })
+      await Candidate.findByIdAndUpdate({_id: candidateId}, {
+        $push: {
+          votedInRoom: roomId,
+          voteFromUser: userId,
+        },
+      })
+      responseSend(res, 200, 'Voted!')
     } catch (e) {
       responseSend(res, 500, 'Server Error!')
     }

@@ -7,6 +7,7 @@ const userFromLocalStorage = localStorage.getItem('user') ?
 
 const initialState = {
   user: userFromLocalStorage,
+  currentUser: null,
   isLoading: false,
 }
 
@@ -14,6 +15,11 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: initialState,
   reducers: {
+
+    GET_CURRENT_USER: (state, action) => {
+      state.currentUser = action.payload
+      state.isLoading = false
+    },
 
     USER_REGISTER: (state) => {
       state.isLoading = false
@@ -37,6 +43,7 @@ const authSlice = createSlice({
     USER_LOGOUT: (state) => {
       localStorage.removeItem('user')
       localStorage.removeItem('token')
+      state.currentUser = null
       state.user = null
     },
 
@@ -49,6 +56,7 @@ const authSlice = createSlice({
 
 export default authSlice.reducer
 export const {
+  GET_CURRENT_USER,
   USER_REGISTER,
   USER_LOGIN,
   USER_LOGIN_FAIL,

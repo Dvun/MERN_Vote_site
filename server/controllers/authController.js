@@ -5,6 +5,15 @@ const {responseSend} = require('../utils/responseSend')
 
 module.exports = {
 
+  getCurrentUser: async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id).select('-password').select('-roles').select('-createdAt').select('-updatedAt')
+      res.status(200).json(user)
+    } catch (e) {
+      responseSend(res, 500, 'Server Error!')
+    }
+  },
+
   userRegister: async (req, res) => {
     const {name, email, password} = req.body
     try {
@@ -27,21 +36,21 @@ module.exports = {
       if (!passwordMatch) return responseSend(res, 404, 'Email or password is not correct!')
       const token = await generateToken(user)
       const loggedUser = {
-        user:{
+        user: {
           _id: user._id,
-          voted: user.voted,
           picture: user.picture,
           roles: user.roles,
           name: user.name,
           email: user.email,
+          votedCandidates: user.votedCandidates,
+          votedRooms: user.votedRooms,
           createdAt: user.createdAt,
-          updatedAt: user.updatedAt
+          updatedAt: user.updatedAt,
         },
-        token
+        token,
       }
       res.status(200).json({loggedUser, message: 'Logged in!'})
     } catch (e) {
-      console.log(e)
       responseSend(res, 500, 'Server Error!')
     }
   },

@@ -13,7 +13,7 @@ const VoteRoomsList = () => {
 
 
   return (
-    <div>
+    <>
       <div className="container">
         <div className="row justify-content-center">
           {
@@ -23,7 +23,7 @@ const VoteRoomsList = () => {
           }
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

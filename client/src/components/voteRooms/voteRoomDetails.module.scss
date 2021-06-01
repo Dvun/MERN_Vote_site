@@ -1,0 +1,13 @@
+.roomDetails {
+  padding: 1rem;
+  border: 1px solid darkgray;
+  border-radius: 10px;
+  height: 610px;
+  position: relative;
+
+  & .loader {
+    position: absolute!important;
+    top: 30% !important;
+    right: -50%;
+  }
+}

@@ -23,7 +23,7 @@ const VoteRoomItem = ({room}) => {
               </h6>
               {
                 !resultDay &&
-                <Link to="/rooms/:id" style={{width: '95px'}}>Start Vote</Link>
+                <Link to={`/rooms/${room._id}`} style={{width: '95px'}}>Start Vote</Link>
               }
             </div>
           </div>

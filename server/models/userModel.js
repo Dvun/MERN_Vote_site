@@ -7,13 +7,8 @@ const userModel = new mongoose.Schema({
   password: {type: String, trim: true, required: true, min: 5, max: 15},
   picture: {type: String, default: '/avatar.png'},
   roles: {type: [String], default: ['user'], enum: ['user', 'candidate', 'admin']},
-  voted: [
-    {
-      isVoted: {type: Boolean, default: false},
-      candidateId: {type: mongoose.Types.ObjectId, ref: 'Candidate'},
-      votedRoomId: {type: mongoose.Types.ObjectId, ref: 'Room'},
-    },
-  ],
+  votedCandidates: [{type: mongoose.Types.ObjectId, ref: 'Candidate'}],
+  votedRooms: [{type: mongoose.Types.ObjectId, ref: 'Room'}],
 
 }, {timestamps: true})
 

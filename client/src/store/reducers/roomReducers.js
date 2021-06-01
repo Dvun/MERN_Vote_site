@@ -39,6 +39,7 @@ const roomSlice = createSlice({
     LOADING_DATA: (state, action) => {
       if (action.payload === 'create') state.isLoading = true
       if (action.payload === 'update') state.isLoading = true
+      if (action.payload === 'getCurrent') state.isLoading = true
       if (action.payload === 'stop') state.isLoading = false
     },
 
@@ -52,5 +53,5 @@ export const {
   DELETE_ROOM,
   GET_CURRENT_ROOM,
   UPDATE_ROOM,
-  LOADING_DATA
+  LOADING_DATA,
 } = roomSlice.actions

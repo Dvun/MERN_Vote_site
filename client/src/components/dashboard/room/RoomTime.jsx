@@ -10,7 +10,7 @@ const RoomTime = ({startDate}) => {
     <List.Description as="div">
       {
         resultDay ?
-          <span style={{color: 'red'}}>VOTE FINISH!</span>
+          <span style={{color: 'red'}}><b>VOTE FINISH!</b></span>
           :
           <span>Vote last day: {format(new Date(startDate), 'dd.MM.yyyy')}</span>
       }

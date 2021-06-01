@@ -21,6 +21,7 @@ export const getAllRooms = () => async (dispatch) => {
 
 export const getCurrentRoom = (id) => async (dispatch) => {
   try {
+    dispatch(LOADING_DATA('getCurrent'))
     const res = await callApi(`/api/rooms/${id}`, 'GET', {})
     dispatch(GET_CURRENT_ROOM(res.data))
   } catch (e) {
