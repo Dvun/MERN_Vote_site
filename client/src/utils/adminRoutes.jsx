@@ -2,6 +2,7 @@ import VoteRoomDetails from '../components/voteRooms/VoteRoomDetails'
 import HomePage from '../pages/HomePage'
 import VoteRooms from '../pages/VoteRooms'
 import AdminPage from '../pages/AdminPage'
+import StatisticsPage from '../pages/StatisticsPage'
 
 
 export const adminRoutes = [
@@ -9,6 +10,10 @@ export const adminRoutes = [
   {
     path: '/',
     component: HomePage,
+  },
+  {
+    path: '/statistics',
+    component: StatisticsPage,
   },
   {
     path: '/rooms',

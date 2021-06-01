@@ -24,6 +24,9 @@ const Header = () => {
               <li className="nav-item">
                 <NavLink className="nav-link" to="/rooms">Rooms</NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/statistics">Statistics</NavLink>
+              </li>
               {
                 user?.roles.includes('admin') || user?.roles.includes('candidate') ?
                   <>

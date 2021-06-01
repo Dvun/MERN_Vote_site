@@ -1,6 +1,7 @@
 import VoteRoomDetails from '../components/voteRooms/VoteRoomDetails'
 import HomePage from '../pages/HomePage'
 import VoteRooms from '../pages/VoteRooms'
+import StatisticsPage from '../pages/StatisticsPage'
 
 
 export const privateRoutes = [
@@ -12,6 +13,10 @@ export const privateRoutes = [
   {
     path: '/rooms',
     component: VoteRooms,
+  },
+  {
+    path: '/statistics',
+    component: StatisticsPage,
   },
   {
     path: '/rooms/:id',
