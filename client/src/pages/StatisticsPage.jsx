@@ -1,9 +1,10 @@
 import React from 'react'
+import Chart from '../components/statistics/Chart'
 
 const StatisticsPage = () => {
   return (
     <div>
-      <h1>Statistic Page</h1>
+      <Chart/>
     </div>
   )
 }

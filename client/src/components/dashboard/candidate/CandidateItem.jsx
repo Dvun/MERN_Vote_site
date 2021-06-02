@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './candidateItem.module.scss'
 import {Button, Image, List} from 'semantic-ui-react'
 import {useDispatch, useSelector} from 'react-redux'
 import {deleteCandidate, getCurrentCandidate} from '../../../store/actions/candidateActions'
@@ -9,7 +10,7 @@ const CandidateItem = ({candidate}) => {
 
 
   return (
-    <List.Item>
+    <List.Item className={styles.candidateItem}>
       <Image avatar src="https://react.semantic-ui.com/images/avatar/small/lena.png"/>
       <List.Content>{candidate.name}</List.Content>
 

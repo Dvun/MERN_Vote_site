@@ -5,7 +5,7 @@ module.exports = {
 
   getAllStatistics: async (req, res) => {
     try {
-      const statistics = await Statistic.find()
+      const statistics = await Statistic.find().populate('candidateId').populate('roomId')
       res.status(200).json(statistics)
     } catch (e) {
       responseSend(res, 500, 'Server Error!')

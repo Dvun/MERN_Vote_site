@@ -38,6 +38,7 @@ export const createNewCandidate = (candidate, setValues) => async (dispatch) => 
     dispatch(getAllCandidates())
   } catch (e) {
     dispatch(ERROR_MESSAGE(e.response.data.message))
+    dispatch(CREATE_NEW_CANDIDATE())
   }
 }
 

@@ -64,25 +64,40 @@ module.exports = {
   votingRoomAndCandidate: async (req, res) => {
     const {userId, roomId, candidateId} = req.body.votingRoomAndCandidate
     try {
+      // Update users votedCandidates and votedRooms
       await User.findByIdAndUpdate({_id: userId}, {
-        $push: {
-          votedCandidates: candidateId,
-          votedRooms: roomId,
-        },
-      })
+        $push: {votedCandidates: candidateId, votedRooms: roomId}})
+
+      // Update Candidate votedInRoom and voteFromUser and increment
       await Candidate.findByIdAndUpdate({_id: candidateId}, {
-        $push: {
-          votedInRoom: roomId,
-          voteFromUser: userId,
-        },
-      })
-      const statistic = await Statistic.findOneAndUpdate({_id: userId}, {$push: {candidateId: candidateId, roomId: roomId}})
+        $inc: {getVote: +1},
+        $push: {votedInRoom: roomId, voteFromUser: userId}})
+
+      // Find Statistic in database
+      const statistic = await Statistic.findById({_id: roomId})
+
+      // If found statistic
+      if (statistic) {
+
+        // Find candidate in Array
+        const cnd = statistic.candidates.find(candidate => candidate.candidateId.toString() === candidateId)
+        if (cnd) {
+
+          // Update found candidate in Array by +1 increment
+          await Statistic.updateOne(
+            {'_id': roomId, 'candidates.candidateId': candidateId},
+            {$inc: {"candidates.$.getVote": 1}})
+        } else {
+
+          // Add new one candidate to Array if not found
+          await Statistic.findOneAndUpdate({_id: roomId}, {
+            $push: {candidates: {candidateId: candidateId}}})
+        }
+      }
+
+      // If no statistic in Array, create new one
       if (!statistic) {
-         const newStatistics = {
-             _id: userId,
-             roomId: roomId,
-             candidateId: candidateId
-           }
+        const newStatistics = {_id: roomId, candidates: [{candidateId: candidateId}],}
         await Statistic.create(newStatistics)
       }
       responseSend(res, 200, 'Voted!')

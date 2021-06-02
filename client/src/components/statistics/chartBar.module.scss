@@ -1,0 +1,42 @@
+.charBar {
+  width: 30px;
+  margin-right: 1rem;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  & .charBarItem {
+    width: 30px;
+    height: 200px;
+    border: 1px solid black;
+    position: relative;
+
+    & .fill {
+      position: absolute;
+      bottom: 0;
+      background-color: #004876;
+      width: 30px;
+      height: 100%;
+    }
+
+    & span {
+      transform: rotate(-90deg);
+      color: red;
+      font-weight: bold;
+      position: absolute;
+      bottom: 154px;
+      width: 200px;
+      left: -88px;
+    }
+
+    & label {
+      color: #004876;
+      transform: rotate(45deg);
+      position: absolute;
+      bottom: -70px;
+      width: 150px;
+      left: -10px;
+    }
+  }
+}
