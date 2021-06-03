@@ -2,10 +2,9 @@ const mongoose = require('mongoose')
 
 const statisticModel = new mongoose.Schema({
     _id: {type: mongoose.Types.ObjectId, ref: 'Room'},
-    candidates: [{
+    getVotedCandidates: [{
         candidateId: {type: mongoose.Types.ObjectId, ref: 'Candidate'},
-        getVote: {type: Number, default: 1},
-        _id: false
+        getVote: {type: Number, default: 1}
     }],
 }, {timestamps: false})
 

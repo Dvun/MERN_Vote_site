@@ -9,7 +9,7 @@ module.exports = {
 
   getAllRooms: async (req, res) => {
     try {
-      const rooms = await Room.find()
+      const rooms = await Room.find().populate('candidates')
       if (!rooms) return responseSend(res, 404, 'Rooms not found!')
       res.status(200).json(rooms)
     } catch (e) {
@@ -80,24 +80,24 @@ module.exports = {
       if (statistic) {
 
         // Find candidate in Array
-        const cnd = statistic.candidates.find(candidate => candidate.candidateId.toString() === candidateId)
+        const cnd = statistic.getVotedCandidates.find(candidate => candidate.candidateId.toString() === candidateId)
         if (cnd) {
 
           // Update found candidate in Array by +1 increment
           await Statistic.updateOne(
-            {'_id': roomId, 'candidates.candidateId': candidateId},
-            {$inc: {"candidates.$.getVote": 1}})
+            {'_id': roomId, 'getVotedCandidates.candidateId': candidateId},
+            {$inc: {"getVotedCandidates.$.getVote": 1}})
         } else {
 
           // Add new one candidate to Array if not found
           await Statistic.findOneAndUpdate({_id: roomId}, {
-            $push: {candidates: {candidateId: candidateId}}})
+            $push: {getVotedCandidates: {candidateId: candidateId}}})
         }
       }
 
       // If no statistic in Array, create new one
       if (!statistic) {
-        const newStatistics = {_id: roomId, candidates: [{candidateId: candidateId}],}
+        const newStatistics = {_id: roomId, getVotedCandidates: [{candidateId: candidateId}],}
         await Statistic.create(newStatistics)
       }
       responseSend(res, 200, 'Voted!')

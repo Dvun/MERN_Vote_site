@@ -5,7 +5,12 @@ module.exports = {
 
   getAllStatistics: async (req, res) => {
     try {
-      const statistics = await Statistic.find().populate('candidateId').populate('roomId')
+      const statistics = await Statistic.find().select('-__v')
+        .populate('_id', '-updatedAt -startDate -description -createdBy -createdAt -__v')
+        .populate({
+          path: '_id',
+          populate: {path: 'candidates', select: '-createdAt -email -updatedAt -votedIds -votedInRoom -__v'},
+        })
       res.status(200).json(statistics)
     } catch (e) {
       responseSend(res, 500, 'Server Error!')

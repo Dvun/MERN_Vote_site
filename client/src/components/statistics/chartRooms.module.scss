@@ -1,0 +1,17 @@
+.chartRoom {
+  width: 49%;
+
+  & .chartRoom__name {
+    margin-bottom: 1rem;
+  }
+
+  .chartRoom__bars {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 49%;
+    height: 330px;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+  }
+}
