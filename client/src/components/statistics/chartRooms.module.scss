@@ -1,5 +1,17 @@
+@import "../../media-queries";
+
 .chartRoom {
   width: 49%;
+
+  @include sm {
+    width: 100%;
+    justify-content: center;
+  }
+
+  @include xs {
+    width: 100%;
+    justify-content: center;
+  }
 
   & .chartRoom__name {
     margin-bottom: 1rem;
@@ -12,6 +24,10 @@
     height: 330px;
     overflow-x: auto;
     overflow-y: hidden;
+    padding: 1rem;
 
+    @include xs {
+      justify-content: center;
+    }
   }
 }

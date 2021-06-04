@@ -19,18 +19,20 @@ const Chart = () => {
   return (
     <div className="container mt-5">
       <h1>Statistics</h1>
-      <div className={styles.charts}>
-        <div className={styles.wrapper}>
+      <div className='row'>
+        <div className={styles.charts}>
+          <div className={styles.wrapper}>
 
-          {
-            isLoading && isLoadingRooms ?
-              <Loader active content="Loading..."/>
-              :
-              rooms.map(room => (
-                <ChartRooms key={room._id} room={room} statistics={statistics}/>
-              ))
-          }
+            {
+              isLoading && isLoadingRooms ?
+                <Loader active content="Loading..."/>
+                :
+                rooms.map(room => (
+                  <ChartRooms key={room._id} room={room} statistics={statistics}/>
+                ))
+            }
 
+          </div>
         </div>
       </div>
     </div>
