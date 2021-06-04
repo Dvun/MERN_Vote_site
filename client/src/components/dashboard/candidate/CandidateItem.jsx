@@ -2,7 +2,8 @@ import React from 'react'
 import styles from './candidateItem.module.scss'
 import {Button, Image, List} from 'semantic-ui-react'
 import {useDispatch, useSelector} from 'react-redux'
-import {deleteCandidate, getCurrentCandidate} from '../../../store/actions/candidateActions'
+import {getCurrentCandidate} from '../../../store/actions/candidateActions'
+import {OPEN_MODAL} from '../../../store/reducers/modalWindowReducers'
 
 const CandidateItem = ({candidate}) => {
   const dispatch = useDispatch()
@@ -23,10 +24,16 @@ const CandidateItem = ({candidate}) => {
           Update
         </Button>
         <Button
-          loading={createCandidateLoading}
           color="red"
           style={{padding: '.78rem 0.5rem'}}
-          onClick={() => dispatch(deleteCandidate(candidate._id))}
+          onClick={
+            () => dispatch(OPEN_MODAL({
+              candidateId: candidate._id,
+              header: 'Remove Candidate',
+              isLoading: createCandidateLoading,
+              content: `Are you really want remove candidate ${candidate.fullName} ?`,
+            }))
+          }
         >
           Delete
         </Button>

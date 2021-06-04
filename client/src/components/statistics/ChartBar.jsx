@@ -2,9 +2,9 @@ import React from 'react'
 import styles from './chartBar.module.scss'
 
 const ChartBar = ({room, statistics, candidate}) => {
-
+  let totalCount = statistics.filter(item => item._id._id)[0].totalVotes
   let voteCount = statistics.filter(item => item._id._id === room._id)[0]?.getVotedCandidates.filter((cnd => cnd.candidateId === candidate._id))[0]?.getVote
-  let tabHeight = Math.round((voteCount === undefined ? 0 : voteCount / room.candidates.length) * 100) + '%'
+  let tabHeight = Math.round((voteCount === undefined ? 0 : voteCount / totalCount) * 100) + '%'
 
   return (
     <div className={styles.charBar}>

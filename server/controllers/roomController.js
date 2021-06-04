@@ -87,11 +87,12 @@ module.exports = {
           await Statistic.updateOne(
             {'_id': roomId, 'getVotedCandidates.candidateId': candidateId},
             {$inc: {"getVotedCandidates.$.getVote": 1}})
+          await Statistic.findByIdAndUpdate({_id: roomId}, {$inc: {totalVotes: +1}})
         } else {
 
           // Add new one candidate to Array if not found
           await Statistic.findOneAndUpdate({_id: roomId}, {
-            $push: {getVotedCandidates: {candidateId: candidateId}}})
+            $push: {getVotedCandidates: {candidateId: candidateId}}, $inc: {totalVotes: +1}})
         }
       }
 
