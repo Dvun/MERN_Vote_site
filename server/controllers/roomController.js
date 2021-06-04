@@ -54,9 +54,9 @@ module.exports = {
       const room = await Room.findByIdAndDelete(req.params.id)
       await User.updateMany({votedRooms: room._id}, {$pull: {votedRooms: room._id}})
       await Candidate.updateMany({votedInRoom: room._id}, {$pull: {votedInRoom: room._id}})
+      await Statistic.findByIdAndDelete(req.params.id)
       responseSend(res, 200, `Room ${room.roomName} is successfully deleted!`)
     } catch (e) {
-      console.log(e)
       responseSend(res, 500, 'Server Error!')
     }
   },
@@ -107,3 +107,4 @@ module.exports = {
   },
 
 }
+

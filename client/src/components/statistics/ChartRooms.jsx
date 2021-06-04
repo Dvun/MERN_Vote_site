@@ -15,7 +15,7 @@ const ChartRooms = ({room, statistics}) => {
           {
             room.candidates.map(candidate => (
               <ChartBar
-                key={candidate._id}
+                key={room._id + candidate._id}
                 candidate={candidate}
                 statistics={statistics}
                 room={room}

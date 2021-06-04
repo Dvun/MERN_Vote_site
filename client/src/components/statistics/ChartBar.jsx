@@ -3,40 +3,14 @@ import styles from './chartBar.module.scss'
 
 const ChartBar = ({room, statistics, candidate}) => {
 
-  let tabHeight = '0%'
-  let voteCount
-  statistics.map(statistic => {
-    if (statistic._id._id === room._id) {
-      statistic.getVotedCandidates.map(votedCandidate => {
-        if (votedCandidate.getVote) {
-          voteCount = votedCandidate.getVote
-        } else {
-          voteCount = 0
-        }
-        tabHeight = (voteCount / room.candidates.length) * 100 + '%'
-      })
-    }
-  })
-
-  statistics.map(statistic => {
-    statistic.getVotedCandidates.map((candidate) => {
-      console.log(statistic)
-    })
-  })
+  let voteCount = statistics.filter(item => item._id._id === room._id)[0]?.getVotedCandidates.filter((cnd => cnd.candidateId === candidate._id))[0]?.getVote
+  let tabHeight = Math.round((voteCount === undefined ? 0 : voteCount / room.candidates.length) * 100) + '%'
 
   return (
     <div className={styles.charBar}>
       <div className={styles.charBarItem}>
         <div className={styles.fill} style={{height: tabHeight}}/>
-
-        {
-          statistics.map(statistic => (
-            statistic.getVotedCandidates.map((candidate) => (
-              <span key={candidate.candidateId[statistic._id._id]}>Total vote: {candidate.getVote[statistic._id._id]}</span>
-            ))
-          ))
-        }
-
+        <span>Total vote: {voteCount ? voteCount : 0}</span>
         <label>{candidate.name}</label>
       </div>
     </div>
