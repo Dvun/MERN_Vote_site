@@ -32,6 +32,7 @@ const CreateNewRoom = () => {
         })
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRoom, candidates])
 
   // Create and Update Candidate
