@@ -64,48 +64,54 @@ module.exports = {
   votingRoomAndCandidate: async (req, res) => {
     const {userId, roomId, candidateId} = req.body.votingRoomAndCandidate
     try {
-      // Update users votedCandidates and votedRooms
-      await User.findByIdAndUpdate({_id: userId}, {
-        $push: {votedCandidates: candidateId, votedRooms: roomId}})
-
-      // Update Candidate votedInRoom and voteFromUser and increment
-      await Candidate.findByIdAndUpdate({_id: candidateId}, {
-        $inc: {getVote: +1},
-        $push: {votedInRoom: roomId, voteFromUser: userId}})
-
-      // Find Statistic in database
-      const statistic = await Statistic.findById({_id: roomId})
-
-      // If found statistic
-      if (statistic) {
-
-        // Find candidate in Array
-        const cnd = statistic.getVotedCandidates.find(candidate => candidate.candidateId.toString() === candidateId)
-        if (cnd) {
-
-          // Update found candidate in Array by +1 increment
-          await Statistic.updateOne(
-            {'_id': roomId, 'getVotedCandidates.candidateId': candidateId},
-            {$inc: {"getVotedCandidates.$.getVote": 1}})
-          await Statistic.findByIdAndUpdate({_id: roomId}, {$inc: {totalVotes: +1}})
-        } else {
-
-          // Add new one candidate to Array if not found
-          await Statistic.findOneAndUpdate({_id: roomId}, {
-            $push: {getVotedCandidates: {candidateId: candidateId}}, $inc: {totalVotes: +1}})
-        }
-      }
-
-      // If no statistic in Array, create new one
-      if (!statistic) {
-        const newStatistics = {_id: roomId, getVotedCandidates: [{candidateId: candidateId}],}
-        await Statistic.create(newStatistics)
-      }
+      await updateCreateStatistic(userId, roomId, candidateId)
       responseSend(res, 200, 'Voted!')
     } catch (e) {
       responseSend(res, 500, 'Server Error!')
     }
   },
+
+}
+
+async function updateCreateStatistic(userId, roomId, candidateId) {
+
+  // Update users votedCandidates and votedRooms
+  await User.findByIdAndUpdate({_id: userId}, {
+    $push: {votedCandidates: candidateId, votedRooms: roomId}})
+
+  // Update Candidate votedInRoom and voteFromUser and increment
+  await Candidate.findByIdAndUpdate({_id: candidateId}, {
+    $inc: {getVote: +1},
+    $push: {votedInRoom: roomId, voteFromUser: userId}})
+
+  // Find Statistic in database
+  const statistic = await Statistic.findById({_id: roomId})
+
+  // If found statistic
+  if (statistic) {
+
+    // Find candidate in Array
+    const cnd = statistic.getVotedCandidates.find(candidate => candidate.candidateId.toString() === candidateId)
+    if (cnd) {
+
+      // Update found candidate in Array by +1 increment
+      await Statistic.updateOne(
+        {'_id': roomId, 'getVotedCandidates.candidateId': candidateId},
+        {$inc: {"getVotedCandidates.$.getVote": 1}})
+      await Statistic.findByIdAndUpdate({_id: roomId}, {$inc: {totalVotes: +1}})
+    } else {
+
+      // Add new one candidate to Array if not found
+      await Statistic.findOneAndUpdate({_id: roomId}, {
+        $push: {getVotedCandidates: {candidateId: candidateId}}, $inc: {totalVotes: +1}})
+    }
+  }
+
+  // If no statistic in Array, create new one
+  if (!statistic) {
+    const newStatistics = {_id: roomId, getVotedCandidates: [{candidateId: candidateId}],}
+    await Statistic.create(newStatistics)
+  }
 
 }
 

@@ -1,5 +1,6 @@
 const Candidate = require('../models/candidateModel')
 const User = require('../models/userModel')
+const Statistic = require('../models/statisticModel')
 const {responseSend} = require('../utils/responseSend')
 
 
@@ -53,10 +54,31 @@ module.exports = {
       const candidate = await Candidate.findByIdAndDelete(req.params.id)
       await User.updateMany({votedCandidates: candidate._id}, {$pull: {votedCandidates: candidate._id}})
       if (!candidate) return responseSend(res, 404, `Candidate not found!`)
+      await deleteCandidateFromStatistic(req.params.id)
       responseSend(res, 200, `Candidate successfully deleted!`)
     } catch (e) {
+      console.log(e)
       responseSend(res, 500, `Server Error!`)
     }
   },
+
+}
+
+async function deleteCandidateFromStatistic(id) {
+
+  const statistic = await Statistic.find({'getVotedCandidates.candidateId': id})
+  statistic.map(obj => {
+    const result = obj.getVotedCandidates.filter(item => {
+      if (item.candidateId == id) return item
+    })[0]
+
+    if (result !== undefined) {
+      obj.totalVotes = obj.totalVotes - result.getVote
+      obj.getVotedCandidates = obj.getVotedCandidates.filter(item => {
+        if (item.candidateId != id) return item
+      })
+      obj.save()
+    }
+  })
 
 }

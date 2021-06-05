@@ -54,7 +54,7 @@ const NewRoomForm = ({
         color="blue"
         type="submit"
         content={currentRoom ? 'Update Room' : 'Create Room'}
-        disabled={values.roomName === '' || values.description === '' || values.startDate === '' || selectorState === null}
+        disabled={values.roomName === '' || values.description === '' || values.startDate === '' || selectorState.length === 0}
       />
       <Button
         floated="right"
@@ -63,7 +63,7 @@ const NewRoomForm = ({
         type="button"
         content="Reset"
         onClick={handleReset}
-        disabled={values.roomName === '' || values.description === '' || values.startDate === '' || selectorState === null}
+        disabled={values.roomName === '' || values.description === '' || values.startDate === '' || selectorState.length === 0}
       />
     </Form>
   )

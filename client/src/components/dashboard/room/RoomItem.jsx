@@ -1,14 +1,16 @@
 import React from 'react'
+import styles from './roomItem.module.scss'
 import {Button, List} from 'semantic-ui-react'
 import RoomTime from './RoomTime'
-import {deleteRoom, getCurrentRoom} from '../../../store/actions/roomActions'
+import {getCurrentRoom} from '../../../store/actions/roomActions'
 import {useDispatch} from 'react-redux'
+import {OPEN_MODAL} from '../../../store/reducers/modalWindowReducers'
 
 const RoomItem = ({room}) => {
   const dispatch = useDispatch()
 
   return (
-    <List.Item>
+    <List.Item className={styles.roomItem}>
       <div className="row p-1">
         <div className="col col-md-10">
           <List.Item>
@@ -35,7 +37,13 @@ const RoomItem = ({room}) => {
             <Button
               color="red"
               style={{width: '100%', marginTop: '5px'}}
-              onClick={() => dispatch(deleteRoom(room._id))}
+              onClick={
+                () => dispatch(OPEN_MODAL({
+                  id: room._id,
+                  header: 'Remove Candidate',
+                  removeType: 'removeRoom',
+                  content: `Are you really want remove candidate ${room.roomName} ?`,
+                }))}
             >
               Delete
             </Button>

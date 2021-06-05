@@ -4,14 +4,16 @@ import {Button} from 'semantic-ui-react'
 import {useDispatch, useSelector} from 'react-redux'
 import {CLOSE_MODAL} from '../../store/reducers/modalWindowReducers'
 import {deleteCandidate} from '../../store/actions/candidateActions'
+import {deleteRoom} from '../../store/actions/roomActions'
 
 const ModalWindow = () => {
   const dispatch = useDispatch()
   const {modalWindowProps} = useSelector(({modalWindowReducers}) => modalWindowReducers)
 
   const handleDelete = async () => {
-    await dispatch(deleteCandidate(modalWindowProps.candidateId))
-    !modalWindowProps.isLoading && dispatch(CLOSE_MODAL())
+    if (modalWindowProps.removeType === 'removeCandidate') await dispatch(deleteCandidate(modalWindowProps.id))
+    if (modalWindowProps.removeType === 'removeRoom') await dispatch(deleteRoom(modalWindowProps.id))
+    await dispatch(CLOSE_MODAL())
   }
 
   return (

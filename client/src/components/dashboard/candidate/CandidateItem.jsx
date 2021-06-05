@@ -28,10 +28,11 @@ const CandidateItem = ({candidate}) => {
           style={{padding: '.78rem 0.5rem'}}
           onClick={
             () => dispatch(OPEN_MODAL({
-              candidateId: candidate._id,
+              id: candidate._id,
               header: 'Remove Candidate',
+              removeType: 'removeCandidate',
               isLoading: createCandidateLoading,
-              content: `Are you really want remove candidate ${candidate.fullName} ?`,
+              content: `Are you really want remove candidate ${candidate.name} ?`,
             }))
           }
         >
