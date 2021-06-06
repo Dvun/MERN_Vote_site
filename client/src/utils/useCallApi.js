@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const callApi = (url, method, data) => {
+export const useCallApi = (url, method, data) => {
 
 
   return axios({
