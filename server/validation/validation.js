@@ -6,6 +6,7 @@ const validateEmail = (email) => {
   return regex.test(email)
 }
 
+// Validation for registration and login Users
 
 const validator = {
 

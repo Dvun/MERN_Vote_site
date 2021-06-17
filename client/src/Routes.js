@@ -5,6 +5,8 @@ import {publicRoutes} from './utils/publicRoutes'
 import {privateRoutes} from './utils/privateRoutes'
 import {adminRoutes} from './utils/adminRoutes'
 
+// React routes. For visitors, users and admin
+
 const Routes = () => {
   const {user} = useSelector(({authReducers}) => authReducers)
 
