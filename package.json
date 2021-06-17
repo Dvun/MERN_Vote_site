@@ -1,17 +1,21 @@
 {
   "name": "test-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Vote Site",
+  "main": "server.js",
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
+  },
   "scripts": {
     "start": "node server/server.js",
     "server": "nodemon server/server.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false YARN_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "keywords": [],
-  "author": "",
+  "author": "Roman Seveljov",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
